@@ -1,11 +1,11 @@
-from PySide.QtCore import Qt
-from PySide.QtGui import (
-    QApplication,
+from PySide2.QtCore import Qt
+from PySide2.QtGui import (
     QCursor,
 )
+from PySide2.QtWidgets import QApplication
+
 from qflowview.qflowview import QFlowView
 from APIClient import fancy_handle, API_Call_Result
-
 from models.curation import CurationListModel
 from delegates.search import SearchResultDelegate
 

@@ -5,13 +5,13 @@
 # ***********************************************************************
 
 import unittest
-from PySide.QtCore import Qt
+from PySide2.QtCore import Qt
 from VersionModel import LocalVersionModel, OndselVersionModel
 import pprint
 import shutil
 import os
 import time
-import FreeCAD as App
+from CADAccess import FreeCAD as App
 
 
 class TestLocalVersionModel(unittest.TestCase):

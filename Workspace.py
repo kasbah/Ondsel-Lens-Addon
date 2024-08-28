@@ -1,4 +1,4 @@
-from PySide.QtCore import (
+from PySide2.QtCore import (
     QAbstractListModel,
     Qt,
     QModelIndex,
@@ -6,7 +6,7 @@ from PySide.QtCore import (
     QFileSystemWatcher,
     QThread,
 )
-from PySide.QtGui import QPixmap
+from PySide2.QtGui import QPixmap
 import Utils
 import os
 import shutil

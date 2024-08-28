@@ -9,10 +9,10 @@ import os
 import json
 from pathlib import Path
 
-from PySide.QtCore import Qt, QAbstractListModel, QModelIndex
-from PySide.QtGui import QStandardItemModel, QStandardItem
+from PySide2.QtCore import Qt, QAbstractListModel, QModelIndex
+from PySide2.QtGui import QStandardItemModel, QStandardItem
 
-import FreeCAD
+from CADAccess import FreeCAD
 
 
 CACHE_PATH = FreeCAD.getUserCachePath() + "Ondsel-Lens/"

@@ -5,7 +5,7 @@
 # ***********************************************************************
 
 import unittest
-from PySide.QtCore import Qt, QModelIndex
+from PySide2.QtCore import Qt, QModelIndex
 from DataModels import FileListModel
 
 

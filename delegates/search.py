@@ -1,42 +1,13 @@
-import os
-from datetime import datetime
-import re
-import json
-import shutil
 import requests
-import uuid
-import base64
 import webbrowser
-import logging
+
+from PySide2.QtGui import QCursor, QPixmap
+from PySide2.QtWidgets import QFrame
 
 import Utils
-from PySide import QtCore, QtGui, QtWidgets
-from PySide.QtGui import (
-    QStyledItemDelegate,
-    QStyle,
-    QMessageBox,
-    QApplication,
-    QIcon,
-    QAction,
-    QActionGroup,
-    QMenu,
-    QSizePolicy,
-    QPixmap,
-    QStandardItem,
-    QStandardItemModel,
-    QListView,
-    QListWidgetItem,
-    QScrollArea,
-    QWidget,
-    QVBoxLayout,
-    QLabel,
-    QFrame,
-    QCursor,
-)
-from PySide.QtCore import QByteArray, Qt, QSize
-from PySide.QtWidgets import QTreeView
-from PySide2.QtUiTools import loadUiType
-import FreeCADGui as Gui
+from PySide2 import QtGui
+from PySide2.QtCore import Qt, QSize
+from CADAccess import FreeCADGui as Gui
 
 from models.curation import CurationListModel
 

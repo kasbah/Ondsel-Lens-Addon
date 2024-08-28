@@ -13,10 +13,10 @@ import zipfile
 import shutil
 from urllib.parse import urlparse
 
-from PySide.QtGui import QPixmap
-from PySide.QtCore import Qt
+from PySide2.QtGui import QPixmap
+from PySide2.QtCore import Qt
 
-import FreeCAD
+from CADAccess import FreeCAD
 
 mod_path = os.path.dirname(__file__).replace("\\", "/")
 icon_path = f"{mod_path}/Resources/icons/"

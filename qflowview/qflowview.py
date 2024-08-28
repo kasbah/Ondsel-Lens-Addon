@@ -1,8 +1,8 @@
 # sourced from QT docs and other places including
 # https://github.com/baoboa/pyqt5/blob/master/examples/layouts/flowlayout.py
 
-from PySide.QtCore import Qt, QSize, QRect, QPoint, QAbstractListModel
-from PySide.QtGui import QScrollArea, QSizePolicy, QWidget, QVBoxLayout
+from PySide2.QtCore import Qt, QSize, QAbstractListModel
+from PySide2.QtWidgets import QWidget, QScrollArea, QVBoxLayout
 
 from qflowview.flowlayout import FlowLayout
 
@@ -120,9 +120,8 @@ class QFlowView(QScrollArea):
 
     def onLayoutChange(self):
         if self.widget is not None:
-            self.resultWidget
             self.vbox.removeWidget(self.resultWidget)
-            # yes, we are completedly relying on python's memory manager clean up all those SearchResultItems()
+            # yes, we are completely relying on python's memory manager clean up all those SearchResultItems()
             self.resultWidget.remove_all_results()
             del self.resultWidget
             self.resultWidget = _QFlowViewFace(self)  # note: just added self in param

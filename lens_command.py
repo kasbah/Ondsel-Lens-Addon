@@ -1,9 +1,9 @@
 import Utils
 import WorkspaceView
-import FreeCAD
-import FreeCADGui as Gui
-from PySide import QtGui
-from PySide import QtWidgets
+from CADAccess import FreeCAD
+from CADAccess import FreeCADGui as Gui
+from PySide2 import QtGui
+from PySide2 import QtWidgets
 
 
 class LensCommand:
@@ -33,7 +33,7 @@ class LensWorkbenchManipulator:
 
 
 def find_subwindow(main_window):
-    from PySide import QtWidgets
+    from PySide2 import QtWidgets
 
     subwindows = main_window.findChildren(QtWidgets.QMdiSubWindow)
     for subwindow in subwindows:

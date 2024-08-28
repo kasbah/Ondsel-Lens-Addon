@@ -4,7 +4,7 @@
 # *                                                                     *
 # ***********************************************************************
 
-from PySide.QtCore import Qt, QAbstractListModel, QModelIndex
+from PySide2.QtCore import Qt, QAbstractListModel, QModelIndex
 
 
 class ShareLinkModel(QAbstractListModel):

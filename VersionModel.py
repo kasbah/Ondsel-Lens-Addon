@@ -4,7 +4,7 @@
 # *                                                                     *
 # ***********************************************************************
 
-from PySide.QtCore import Qt, QAbstractListModel, QModelIndex, QFileSystemWatcher
+from PySide2.QtCore import Qt, QAbstractListModel, QModelIndex, QFileSystemWatcher
 from tzlocal import get_localzone
 import datetime
 import os
