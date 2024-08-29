@@ -6,6 +6,15 @@ This is a "mock" environment that makes things easier without bothering with Fre
 
 HOWEVER, it is JUST a mocking environment. Final testing should always be done with FreeCAD.
 
+## SETUP
+ 
+- Create a symbolic link to this repo from where-ever you have FreeCAD/OndselES installed for the `PySide` translation. If you are running an AppImage, you will need to explode it.
+  For example:
+
+```
+ln -s /home/johnd/Software/Ondsel/OndselES/usr/Ext/PySide /repo/Ondsel-Lens/PySide
+```
+
 ## Using Jetbrain's PyCharm
 
 - Create a configuration of type `Python` that runs `_mock_freecad.py` as it's "script" target.

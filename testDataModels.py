@@ -6,7 +6,7 @@
 
 from DataModels import ShareLinkModel, VersionModel
 
-from PySide2.QtCore import Qt
+from PySide.QtCore import Qt
 
 if __name__ == "__main__":
     # Test the ShareLinkModel

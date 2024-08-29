@@ -13,8 +13,8 @@ import zipfile
 import shutil
 from urllib.parse import urlparse
 
-from PySide2.QtGui import QPixmap
-from PySide2.QtCore import Qt
+from PySide.QtGui import QPixmap
+from PySide.QtCore import Qt
 
 from CADAccess import FreeCAD
 

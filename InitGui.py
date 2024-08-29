@@ -3,9 +3,10 @@
 # * Copyright (c) 2023 Ondsel                                           *
 # *                                                                     *
 # ***********************************************************************
-from PySide2 import QtCore
 
+import Utils
 from lens_command import LensCommand, LensWorkbenchManipulator, start_mdi_tab
+from CADAccess import FreeCAD
 from CADAccess import FreeCADGui as Gui
 
 import WorkspaceView

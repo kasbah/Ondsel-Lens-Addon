@@ -23,7 +23,7 @@ from inspect import cleandoc
 import jwt
 from jwt.exceptions import ExpiredSignatureError
 
-from PySide2 import QtCore, QtGui, QtWidgets
+from PySide import QtCore, QtGui, QtWidgets
 
 from CADAccess import FreeCAD
 from CADAccess import FreeCADGui
@@ -61,16 +61,23 @@ from Workspace import (
 
 from views.search_results_view import SearchResultsView
 
-from PySide2.QtGui import (
+from PySide.QtGui import (
+    QStyledItemDelegate,
+    QStyle,
+    QMessageBox,
+    QApplication,
     QIcon,
+    QAction,
+    QActionGroup,
+    QMenu,
+    QSizePolicy,
     QPixmap,
+    QListView,
 )
 
-from PySide2.QtCore import QByteArray
+from PySide.QtCore import QByteArray
 
-from PySide2.QtWidgets import QTreeView, QStyledItemDelegate, QStyle, QTabWidget, QMenu, QAction, QDialog, QActionGroup, \
-    QMessageBox, QSizePolicy, QApplication, QFileDialog, QVBoxLayout, QLabel, QLineEdit, QPushButton, QHBoxLayout, \
-    QFormLayout
+from PySide.QtWidgets import QTreeView
 
 from WorkspaceListDelegate import WorkspaceListDelegate
 
@@ -328,7 +335,7 @@ class WorkspaceView(QtWidgets.QScrollArea):
         self.setObjectName("workspaceView")
         self.form = FreeCADGui.PySideUic.loadUi(f"{Utils.mod_path}/WorkspaceView.ui")
 
-        tabWidget = self.form.findChildren(QTabWidget)[0]
+        tabWidget = self.form.findChildren(QtGui.QTabWidget)[0]
         tabBar = tabWidget.tabBar()
         wsIcon = QtGui.QIcon(Utils.icon_path + "folder-multiple-outline.svg")
         tabBar.setTabIcon(0, wsIcon)
@@ -394,14 +401,14 @@ class WorkspaceView(QtWidgets.QScrollArea):
 
         self.form.addLinkBtn.clicked.connect(self.addShareLink)
 
-        addFileMenu = QMenu(self.form.addFileBtn)
-        addFileAction = QAction("Add current file", self.form.addFileBtn)
+        addFileMenu = QtGui.QMenu(self.form.addFileBtn)
+        addFileAction = QtGui.QAction("Add current file", self.form.addFileBtn)
         addFileAction.triggered.connect(self.addCurrentFile)
         addFileMenu.addAction(addFileAction)
-        addFileAction2 = QAction("Select files...", self.form.addFileBtn)
+        addFileAction2 = QtGui.QAction("Select files...", self.form.addFileBtn)
         addFileAction2.triggered.connect(self.addSelectedFiles)
         addFileMenu.addAction(addFileAction2)
-        addFileAction3 = QAction("Add a directory", self.form.addFileBtn)
+        addFileAction3 = QtGui.QAction("Add a directory", self.form.addFileBtn)
         addFileAction3.triggered.connect(self.addDir)
         addFileMenu.addAction(addFileAction3)
         self.form.addFileBtn.setMenu(addFileMenu)
@@ -623,7 +630,7 @@ class WorkspaceView(QtWidgets.QScrollArea):
         while True:
             # Show a login dialog to get the user's email and password
             dialog = LoginDialog()
-            if dialog.exec() == QDialog.Accepted:
+            if dialog.exec() == QtGui.QDialog.Accepted:
                 email, password = dialog.get_credentials()
                 try:
                     self.api = APIClient(
@@ -1900,19 +1907,19 @@ class WorkspaceView(QtWidgets.QScrollArea):
     def deleteShareLinkClicked(self, index):
         model = self.form.linksView.model()
         linkId = model.data(index, ShareLinkModel.UrlRole)
-        result = QMessageBox.question(
+        result = QtGui.QMessageBox.question(
             None,
             "Delete Link",
             "Are you sure you want to delete this link?",
-            QMessageBox.Yes | QMessageBox.No,
+            QtGui.QMessageBox.Yes | QtGui.QMessageBox.No,
         )
-        if result == QMessageBox.Yes:
+        if result == QtGui.QMessageBox.Yes:
             self.handle(lambda: model.delete_link(linkId))
 
     def addShareLink(self):
         dialog = SharingLinkEditDialog(None, self)
 
-        if dialog.exec_() == QDialog.Accepted:
+        if dialog.exec_() == QtGui.QDialog.Accepted:
             link_properties = dialog.getLinkProperties()
 
             self.handle(
@@ -1922,7 +1929,7 @@ class WorkspaceView(QtWidgets.QScrollArea):
     def openUrl(self, url):
         # doesn't work on platforms without `gio-launch-desktop` while Qt
         # tries to use this.
-        # ret = QDesktopServices.openUrl(QtCore.QUrl(url))
+        # ret = QtGui.QDesktopServices.openUrl(QtCore.QUrl(url))
         logger.debug(f"Attempting to open {url}")
         if not webbrowser.open(url):
             logger.warn(f"Failed to open {url} in the browser")
@@ -2005,7 +2012,7 @@ class WorkspaceView(QtWidgets.QScrollArea):
         fileName = os.path.basename(doc.FileName)
 
         # Open a dialog box for the user to select a file location and name
-        # file_name, _ = QFileDialog.getSaveFileName(
+        # file_name, _ = QtGui.QFileDialog.getSaveFileName(
         #     self, "Save File", default_file_path, "FreeCAD file (*.fcstd)"
         # )
 
@@ -2027,7 +2034,7 @@ class WorkspaceView(QtWidgets.QScrollArea):
 
     def addSelectedFiles(self):
         # open file browser dialog to select files to copy
-        selectedFiles, _ = QFileDialog.getOpenFileNames(
+        selectedFiles, _ = QtGui.QFileDialog.getOpenFileNames(
             None,
             "Select Files",
             os.path.expanduser("~"),
@@ -2044,7 +2051,7 @@ class WorkspaceView(QtWidgets.QScrollArea):
             try:
                 shutil.copy(fileUrl, destFileUrl)
             except (shutil.SameFileError, OSError):
-                QMessageBox.warning(
+                QtGui.QMessageBox.warning(
                     None, "Error", "Failed to copy file " + fileName
                 )
 
@@ -2068,7 +2075,7 @@ class WorkspaceView(QtWidgets.QScrollArea):
         dialog = CreateDirDialog(existingFileNames)
 
         def tryCreateDir():
-            if dialog.exec_() == QDialog.Accepted:
+            if dialog.exec_() == QtGui.QDialog.Accepted:
                 dir = dialog.getDir()
                 self.currentWorkspaceModel.createDir(dir)
             self.currentWorkspaceModel.refreshModel()
@@ -2088,7 +2095,7 @@ class WorkspaceView(QtWidgets.QScrollArea):
 
     #     dialog = NewWorkspaceDialog()
     #     # Show the dialog and wait for the user to close it
-    #     if dialog.exec_() == QDialog.Accepted:
+    #     if dialog.exec_() == QtGui.QDialog.Accepted:
     #         workspaceName = dialog.nameEdit.text()
     #         workspaceDesc = dialog.descEdit.toPlainText()
 
@@ -2313,7 +2320,7 @@ class WorkspaceView(QtWidgets.QScrollArea):
             bookmarkModel = viewBookmarks.model()
             typeItem = bookmarkModel.data(index, ROLE_TYPE)
             if typeItem == TYPE_BOOKMARK:
-                menu = QMenu()
+                menu = QtGui.QMenu()
                 openAction = menu.addAction("Open bookmark")
                 viewAction = menu.addAction("View the bookmark in Lens")
 
@@ -2326,7 +2333,9 @@ class WorkspaceView(QtWidgets.QScrollArea):
                     self.openShareLinkOnline(idShareModel)
 
     def find_our_toolbaritem_action(self):
-        import PySide2.QtWidgets as QtWidgets
+        import PySide.QtWidgets as QtWidgets
+        import WorkspaceView
+
         if self.toolBarItemAction is None:
             main_window = FreeCADGui.getMainWindow()
             fileToolBar = main_window.findChild(QtWidgets.QToolBar, "File")
@@ -2340,6 +2349,124 @@ class WorkspaceView(QtWidgets.QScrollArea):
                                 self.toolBarItemAction = allActions[0]
 
 
+# class NewWorkspaceDialog(QtGui.QDialog):
+#     def __init__(self, parent=None):
+#         super(NewWorkspaceDialog, self).__init__(parent)
+#         self.setWindowTitle("Add Workspace")
+#         self.setModal(True)
+
+#         layout = QtGui.QVBoxLayout()
+
+#         # Radio buttons for selecting workspace type
+#         # self.localRadio = QtGui.QRadioButton("Local")
+#         # self.ondselRadio = QtGui.QRadioButton("Ondsel Server")
+#         # self.ondselRadio.setToolTip(
+#         #     "Ondsel currently supports only one workspace "
+#         #     "that is added automatically on login."
+#         # )
+#         # self.ondselRadio.setEnabled(False)
+#         # self.externalRadio = QtGui.QRadioButton("External Server")
+#         # self.externalRadio.setToolTip(
+#         #     "Currently external servers support is not implemented."
+#         # )
+#         # self.externalRadio.setEnabled(False)
+
+#         # button_group = QtGui.QButtonGroup()
+#         # button_group.addButton(self.localRadio)
+#         # button_group.addButton(self.ondselRadio)
+#         # button_group.addButton(self.externalRadio)
+
+#         # group_box = QtGui.QGroupBox("type")
+#         # group_box_layout = QtGui.QHBoxLayout()
+#         # group_box_layout.addWidget(self.localRadio)
+#         # group_box_layout.addWidget(self.ondselRadio)
+#         # group_box_layout.addWidget(self.externalRadio)
+#         # group_box.setLayout(group_box_layout)
+
+#         # Workspace Name
+#         self.nameLabel = QtGui.QLabel("Name")
+#         self.nameEdit = QtGui.QLineEdit()
+#         nameHlayout = QtGui.QHBoxLayout()
+#         nameHlayout.addWidget(self.nameLabel)
+#         nameHlayout.addWidget(self.nameEdit)
+
+#         # Workspace description
+#         self.descLabel = QtGui.QLabel("Description")
+#         self.descEdit = QtGui.QTextEdit()
+
+#         # # Widgets for local workspace type
+#         # self.localFolderLabel = QtGui.QLineEdit("")
+#         # self.localFolderEdit = QtGui.QPushButton("Select folder")
+#         # self.localFolderEdit.clicked.connect(self.show_folder_picker)
+#         # h_layout = QtGui.QHBoxLayout()
+#         # h_layout.addWidget(self.localFolderLabel)
+#         # h_layout.addWidget(self.localFolderEdit)
+
+#         # # Widgets for external server workspace type
+#         # self.externalServerLabel = QtGui.QLabel("Server URL")
+#         # self.externalServerEdit = QtGui.QLineEdit()
+
+#         # Add widgets to layout
+#         # layout.addWidget(group_box)
+#         layout.addLayout(nameHlayout)
+#         layout.addWidget(self.descLabel)
+#         layout.addWidget(self.descEdit)
+#         # layout.addLayout(h_layout)
+#         # layout.addWidget(self.externalServerLabel)
+#         # layout.addWidget(self.externalServerEdit)
+
+#         # Connect radio buttons to updateDialog function
+#         # self.localRadio.toggled.connect(self.updateDialog)
+#         # self.ondselRadio.toggled.connect(self.updateDialog)
+#         # self.externalRadio.toggled.connect(self.updateDialog)
+#         # self.localRadio.setChecked(True)
+
+#         # Add OK and Cancel buttons
+#         buttonBox = QtGui.QDialogButtonBox(
+#             QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel
+#         )
+#         buttonBox.accepted.connect(self.accept)
+#         buttonBox.rejected.connect(self.reject)
+
+#         # Add layout and buttons to dialog
+#         self.setLayout(layout)
+#         layout.addWidget(buttonBox)
+
+#     # Function to update the dialog when the workspace type is changed
+#     def updateDialog(self):
+#         pass
+#         # if self.ondselRadio.isChecked():
+#         #     self.nameLabel.setText("ondsel.com/")
+#         # else:
+#         #     self.nameLabel.setText("Name")
+#         # self.localFolderLabel.setVisible(self.localRadio.isChecked())
+#         # self.localFolderEdit.setVisible(self.localRadio.isChecked())
+
+#         # self.externalServerLabel.setVisible(self.externalRadio.isChecked())
+#         # self.externalServerEdit.setVisible(self.externalRadio.isChecked())
+
+#     # def show_folder_picker(self):
+#     #     options = QtGui.QFileDialog.Options()
+#     #     options |= QtGui.QFileDialog.ShowDirsOnly
+#     #     folder_url = QtGui.QFileDialog.getExistingDirectory(
+#     #         self, "Select Folder", options=options
+#     #     )
+#     #     if folder_url:
+#     #         self.localFolderLabel.setText(folder_url)
+
+#     # def okClicked(self):
+#     #    pass
+#     # if self.localRadio.isChecked():
+#     #    if os.path.isdir(self.localFolderLabel.text()):
+#     #        self.accept()
+#     #    else:
+#     #        result = QtGui.QMessageBox.question(
+#     #            self,
+#     #            "Wrong URL",
+#     #            "The URL you entered is not correct.",
+#     #            QtGui.QMessageBox.Ok,
+#     #        )
+
 PROTECTION_COMBO_BOX_LISTED = 0
 PROTECTION_COMBO_BOX_UNLISTED = 1
 PROTECTION_COMBO_BOX_PIN = 2
@@ -2347,7 +2474,7 @@ VERSION_FOLLOWING_COMBO_BOX_LOCKED = 0
 VERSION_FOLLOWING_COMBO_BOX_ACTIVE = 1
 
 
-class SharingLinkEditDialog(QDialog):
+class SharingLinkEditDialog(QtGui.QDialog):
     def __init__(self, linkProperties=None, parent=None):
         super(SharingLinkEditDialog, self).__init__(parent)
 
@@ -2356,7 +2483,7 @@ class SharingLinkEditDialog(QDialog):
             Utils.mod_path + "/SharingLinkEditDialog.ui"
         )
 
-        layout = QVBoxLayout()
+        layout = QtGui.QVBoxLayout()
         layout.addWidget(self.dialog)
         self.setLayout(layout)
 
@@ -2530,32 +2657,32 @@ class SharingLinkEditDialog(QDialog):
         return self.linkProperties
 
 
-class EnterCommitMessageDialog(QDialog):
+class EnterCommitMessageDialog(QtGui.QDialog):
     MAX_LENGTH_COMMIT_MESSAGE = 50
 
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Commit Message")
 
-        self.label = QLabel("Please provide a commit message:")
-        self.commit_message_input = QLineEdit()
+        self.label = QtGui.QLabel("Please provide a commit message:")
+        self.commit_message_input = QtGui.QLineEdit()
         self.commit_message_input.setMaxLength(
             EnterCommitMessageDialog.MAX_LENGTH_COMMIT_MESSAGE
         )
 
-        self.upload_button = QPushButton("Upload")
+        self.upload_button = QtGui.QPushButton("Upload")
         self.upload_button.clicked.connect(self.accept)
 
-        self.cancel_button = QPushButton("Cancel")
+        self.cancel_button = QtGui.QPushButton("Cancel")
         self.cancel_button.clicked.connect(self.reject)
 
         self.upload_button.setEnabled(False)
 
-        layout = QVBoxLayout()
+        layout = QtGui.QVBoxLayout()
         layout.addWidget(self.label)
         layout.addWidget(self.commit_message_input)
 
-        buttons_layout = QHBoxLayout()
+        buttons_layout = QtGui.QHBoxLayout()
         buttons_layout.addWidget(self.upload_button)
         buttons_layout.addWidget(self.cancel_button)
 
@@ -2575,28 +2702,28 @@ class EnterCommitMessageDialog(QDialog):
         return self.commit_message_input.text()
 
 
-class CreateDirDialog(QDialog):
+class CreateDirDialog(QtGui.QDialog):
     def __init__(self, filenames):
         super().__init__()
         self.setWindowTitle("Create Directory")
 
         self.filenames = filenames
-        self.label = QLabel("Directory name:")
-        self.directory_input = QLineEdit()
+        self.label = QtGui.QLabel("Directory name:")
+        self.directory_input = QtGui.QLineEdit()
 
-        self.create_button = QPushButton("Create")
+        self.create_button = QtGui.QPushButton("Create")
         self.create_button.clicked.connect(self.accept)
 
-        self.cancel_button = QPushButton("Cancel")
+        self.cancel_button = QtGui.QPushButton("Cancel")
         self.cancel_button.clicked.connect(self.reject)
 
         self.create_button.setEnabled(False)
 
-        layout = QVBoxLayout()
+        layout = QtGui.QVBoxLayout()
         layout.addWidget(self.label)
         layout.addWidget(self.directory_input)
 
-        buttons_layout = QHBoxLayout()
+        buttons_layout = QtGui.QHBoxLayout()
         buttons_layout.addWidget(self.create_button)
         buttons_layout.addWidget(self.cancel_button)
 
@@ -2616,43 +2743,43 @@ class CreateDirDialog(QDialog):
         return self.directory_input.text()
 
 
-class LoginDialog(QDialog):
+class LoginDialog(QtGui.QDialog):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Login")
 
-        layout = QVBoxLayout()
+        layout = QtGui.QVBoxLayout()
         layout.setContentsMargins(10, 10, 10, 10)
         layout.setSpacing(20)
 
-        self.email_label = QLabel("Email:")
+        self.email_label = QtGui.QLabel("Email:")
         self.email_label.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
 
-        self.email_input = QLineEdit()
+        self.email_input = QtGui.QLineEdit()
         self.email_input.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
 
-        self.password_label = QLabel("Password:")
+        self.password_label = QtGui.QLabel("Password:")
         self.password_label.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
 
-        self.password_input = QLineEdit()
+        self.password_input = QtGui.QLineEdit()
         self.password_input.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         self.password_input.setEchoMode(QtGui.QLineEdit.Password)
 
-        self.login_button = QPushButton("Login")
+        self.login_button = QtGui.QPushButton("Login")
         self.login_button.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         self.login_button.clicked.connect(self.login)
-        self.cancel_button = QPushButton("Cancel")
+        self.cancel_button = QtGui.QPushButton("Cancel")
         self.cancel_button.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         self.cancel_button.clicked.connect(self.reject)
 
         self.login_button.setEnabled(False)
 
-        formLayout = QFormLayout()
+        formLayout = QtGui.QFormLayout()
         formLayout.setSpacing(5)
         formLayout.addRow(self.email_label, self.email_input)
         formLayout.addRow(self.password_label, self.password_input)
 
-        buttonLayout = QHBoxLayout()
+        buttonLayout = QtGui.QHBoxLayout()
         buttonLayout.addWidget(self.login_button)
         buttonLayout.addWidget(self.cancel_button)
 

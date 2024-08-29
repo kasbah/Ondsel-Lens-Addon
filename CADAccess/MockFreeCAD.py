@@ -8,6 +8,8 @@ class FreeCADClass:
 
     def __init__(self):
         self.parameters = MockParameters()
+        start_stuff = MockParameters()
+        self.parameters.SetDict("User parameter:BaseApp/Preferences/Mod/Start", start_stuff)
 
     def ParamGet(self, name=None, default=None):
         if name is None:

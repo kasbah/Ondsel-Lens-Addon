@@ -28,6 +28,10 @@ class MockParameters:
     def SetString(self, name: str, value: str) -> None:
         self.stored_dict[name] = value
 
+    def SetDict(self, name, value):
+        """ made this one up for the mock """
+        self.stored_dict[name] = value
+
     def RemBool(self, name: str) -> None:
         self.stored_dict.pop(name)
 

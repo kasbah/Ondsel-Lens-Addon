@@ -1,8 +1,8 @@
 # sourced from QT docs and other places including
 # https://github.com/baoboa/pyqt5/blob/master/examples/layouts/flowlayout.py
 
-from PySide2.QtCore import Qt, QSize, QRect, QPoint
-from PySide2.QtWidgets import QLayout, QSizePolicy
+from PySide.QtCore import Qt, QSize, QRect, QPoint
+from PySide.QtGui import QLayout, QSizePolicy
 
 
 class FlowLayout(QLayout):
