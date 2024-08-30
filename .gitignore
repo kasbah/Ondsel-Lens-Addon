@@ -10,4 +10,5 @@ Cache/
 *.FCBak
 requirements.txt
 CADAccess/resources.py
+_mock_environment/theme
 *.qrc

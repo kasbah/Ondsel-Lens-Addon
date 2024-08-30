@@ -8,11 +8,17 @@ HOWEVER, it is JUST a mocking environment. Final testing should always be done w
 
 ## SETUP
  
-- Create a symbolic link to this repo from where-ever you have FreeCAD/OndselES installed for the `PySide` translation. If you are running an AppImage, you will need to explode it.
+- Create a symbolic link in this repo from where-ever you have FreeCAD/OndselES installed for the `PySide` translation. If you are running an AppImage, you will need to explode it.
   For example:
 
 ```
 ln -s /home/johnd/Software/Ondsel/OndselES/usr/Ext/PySide /repo/Ondsel-Lens/PySide
+```
+
+- clone https://github.com/obelisk79/OpenTheme repo (if you haven't already). Compile the `.qss` files. Create a softlink to the OpenDark in the `_mock_environment` directory and name it `theme`.
+
+```
+ln /home/johnd/Projects/OpenTheme/OpenDark -s _mock_environment/theme
 ```
 
 ## Using Jetbrain's PyCharm
