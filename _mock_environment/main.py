@@ -32,4 +32,5 @@ class MainWindow(QMainWindow):
 
     def add_false_start_panel(self):
         from CADAccess.MockFreeCADGui import FreeCADGui
-        FreeCADGui.PySideUic.loadUi("_mock_environment/MockStartPanel.ui")
+        start_panel = FreeCADGui.PySideUic.loadUi("_mock_environment/MockStartPanel.ui")
+        FreeCADGui.PySideUic.addWindowToMdi(start_panel)

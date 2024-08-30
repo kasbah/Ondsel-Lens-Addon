@@ -23,6 +23,7 @@ from inspect import cleandoc
 import jwt
 from jwt.exceptions import ExpiredSignatureError
 
+import CADAccess
 from PySide import QtCore, QtGui, QtWidgets
 
 from CADAccess import FreeCAD

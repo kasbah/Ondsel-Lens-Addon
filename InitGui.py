@@ -4,9 +4,8 @@
 # *                                                                     *
 # ***********************************************************************
 
-import Utils
+from PySide import QtCore
 from lens_command import LensCommand, LensWorkbenchManipulator, start_mdi_tab
-from CADAccess import FreeCAD
 from CADAccess import FreeCADGui as Gui
 
 import WorkspaceView

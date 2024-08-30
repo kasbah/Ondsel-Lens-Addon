@@ -14,10 +14,19 @@ class PySideUicClass:
         ui_file.open(QFile.ReadOnly)
         loader = QUiLoader()
         newPanel = loader.load(ui_file)
-        newTitle = newPanel.windowTitle()
+        # newTitle = newPanel.windowTitle()
+        # window = QMainWindow()
+        # window.setWindowTitle(newTitle)
+        # window.setCentralWidget(newPanel)
+        # self.mdi_area.addSubWindow(window)
+        # window.show()
+        return newPanel
+
+    def addWindowToMdi(self, new_window):
+        newTitle = new_window.windowTitle()
         window = QMainWindow()
         window.setWindowTitle(newTitle)
-        window.setCentralWidget(newPanel)
+        window.setCentralWidget(new_window)
         self.mdi_area.addSubWindow(window)
         window.show()
 
@@ -36,6 +45,8 @@ class FreeCADGuiClass:
         self.mdi.setTabsClosable(True)
         self.mdi.setTabPosition(QTabWidget.TabPosition.South)
         self.PySideUic = PySideUicClass(self.main_window, self.mdi)
+        # add functions not normally part of QMainWindow:
+        self.main_window.addWindow = self.PySideUic.addWindowToMdi
 
     def addCommand(self, key, todo):
         self.starting_commands.append((key, todo))

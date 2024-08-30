@@ -8,3 +8,6 @@ Cache/
 *.fcstd
 *.FCStd
 *.FCBak
+requirements.txt
+CADAccess/resources.py
+*.qrc
