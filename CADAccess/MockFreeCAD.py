@@ -3,26 +3,27 @@ from os.path import expanduser
 from CADAccess.MockConsole import MockConsole
 from CADAccess.MockParameters import MockParameters
 
+
 class FreeCADClass:
     Console = MockConsole()
     VERSION = [
-        '2024',
-        '3',
-        '0',
-        '38021 (Git)',
-        'https://github.com/Ondsel-Development/FreeCAD flavor',
-        '2024/07/02 00:18:49',
-        'flavor',
-        'a34043c4fa4efa3c871e376a4e1536dcdeb86ebc'
+        "2024",
+        "3",
+        "0",
+        "38021 (Git)",
+        "https://github.com/Ondsel-Development/FreeCAD flavor",
+        "2024/07/02 00:18:49",
+        "flavor",
+        "a34043c4fa4efa3c871e376a4e1536dcdeb86ebc",
     ]
 
     def __init__(self):
         self.parameters = MockParameters()
-        self.parameters.SetDict("User parameter:BaseApp/Preferences/Mod/Start", MockParameters())
+        self.parameters.SetDict(
+            "User parameter:BaseApp/Preferences/Mod/Start", MockParameters()
+        )
         self.parameters.SetDict("User parameter:BaseApp/Ondsel", MockParameters())
-        self.configs = {
-            "ExeVendor": "Ondsel"
-        }
+        self.configs = {"ExeVendor": "Ondsel"}
 
     def ParamGet(self, name=None, default=None):
         if name is None:
@@ -37,7 +38,6 @@ class FreeCADClass:
     def Version(self):
         return self.VERSION
 
-
     @staticmethod
     def getUserCachePath():
         return str(expanduser("~/.cache/Ondsel/Cache"))
@@ -45,5 +45,6 @@ class FreeCADClass:
     @staticmethod
     def getUserConfigDir():
         return str(expanduser("~/.config/Ondsel"))
+
 
 FreeCAD = FreeCADClass()

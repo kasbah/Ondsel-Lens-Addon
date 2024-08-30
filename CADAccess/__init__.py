@@ -9,6 +9,7 @@ try:
     import FreeCADGui
 except ImportError:
     from CADAccess.MockFreeCADGui import FreeCADGui
+
     INSIDE_MOCK = True
     # try:
     #     import resources
@@ -21,4 +22,3 @@ try:
     import AddonManager
 except ImportError:
     from CADAccess.MockAddonManager import AddonManager
-

@@ -2,6 +2,7 @@ from PySide2.QtWidgets import QApplication, QMainWindow
 from PySide2.QtCore import QFile, QSize
 from PySide2.QtUiTools import QUiLoader
 
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -20,6 +21,7 @@ class MainWindow(QMainWindow):
     def prep_operations(self):
         from CADAccess.MockFreeCAD import FreeCAD
         from CADAccess.MockFreeCADGui import FreeCADGui
+
         FreeCADGui.set_main_window_ref(self)
         self.add_false_start_panel()
 
@@ -32,5 +34,6 @@ class MainWindow(QMainWindow):
 
     def add_false_start_panel(self):
         from CADAccess.MockFreeCADGui import FreeCADGui
+
         start_panel = FreeCADGui.PySideUic.loadUi("_mock_environment/MockStartPanel.ui")
         FreeCADGui.PySideUic.addWindowToMdi(start_panel)
