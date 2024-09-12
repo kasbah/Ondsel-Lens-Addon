@@ -1,6 +1,6 @@
 from PySide2.QtWidgets import QTextEdit
 
-LEVELS_TO_SHOW_ON_REPORT_VIEW = ["warning", "error", "all"]  # all is a "fake" level
+LEVELS_TO_SHOW_ON_REPORT_VIEW = ["warning", "info", "error", "all"]  # all is a "fake" level
 
 
 class MockConsole:
