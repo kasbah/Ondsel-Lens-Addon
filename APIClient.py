@@ -811,13 +811,12 @@ class APIClient:
     def getOndselOrganization(self):
         endpoint = "organizations"
         params = {
-            'type': 'Ondsel',
-            'publicInfo': 'true',
+            "type": "Ondsel",
+            "publicInfo": "true",
         }
         result = self._request(endpoint, params=params)
         organizationList = result["data"]
         return organizationList[0]
-
 
     @authRequired
     def getSecondaryRefs(self, orgSecondaryReferencesId):
