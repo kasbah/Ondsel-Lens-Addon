@@ -5,12 +5,12 @@
 # ***********************************************************************
 
 # # TODO: the following try/except is a hack that only works while online for dev-testing
-try:
-    import mistune
-except ImportError:
-    import subprocess
-    subprocess.run(['pip', 'install', 'mistune'])
-    import mistune
+# try:
+#     import mistune
+# except ImportError:
+#     import subprocess
+#     subprocess.run(["pip", "install", "mistune"])
+#     import mistune
 
 import os
 from datetime import datetime
