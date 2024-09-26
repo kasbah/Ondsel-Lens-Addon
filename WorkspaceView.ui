@@ -557,6 +557,46 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="tabPublicShares">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="toolTip">
+       <string/>
+      </property>
+      <attribute name="title">
+       <string>Public Shares</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_7">
+       <item>
+        <widget class="QLabel" name="publicSharesStatusLabel">
+         <property name="text">
+          <string>offline</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="publicSharesFrame">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>500</width>
+           <height>0</height>
+          </size>
+         </property>
+         <layout class="QVBoxLayout" name="publicSharesFrameLayout"/>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
    <item>

@@ -5,12 +5,12 @@
 # ***********************************************************************
 
 # # TODO: the following try/except is a hack that only works while online for dev-testing
-# try:
-#     import mistune
-# except ImportError:
-#     import subprocess
-#     subprocess.run(['pip', 'install', 'mistune'])
-#     import mistune
+try:
+    import mistune
+except ImportError:
+    import subprocess
+    subprocess.run(['pip', 'install', 'mistune'])
+    import mistune
 
 import os
 from datetime import datetime
@@ -105,6 +105,7 @@ IDX_TAB_WORKSPACES = 0
 IDX_TAB_ONDSEL_START = 1
 IDX_TAB_BOOKMARKS = 2
 IDX_TAB_SEARCH = 3
+IDX_TAB_PUBLIC_SHARES = 4
 
 PATH_BOOKMARKS = Utils.joinPath(CACHE_PATH, "bookmarks")
 
@@ -348,6 +349,8 @@ class WorkspaceView(QtWidgets.QScrollArea):
         tabBar.setTabIcon(IDX_TAB_BOOKMARKS, bookmarkIcon)
         searchIcon = QtGui.QIcon(Utils.icon_path + "search.svg")
         tabBar.setTabIcon(IDX_TAB_SEARCH, searchIcon)
+        publicIcon = QtGui.QIcon(Utils.icon_path + "public.svg")
+        tabBar.setTabIcon(IDX_TAB_PUBLIC_SHARES, publicIcon)
 
         self.setWidget(self.form)
         self.setWindowTitle("Ondsel Lens")
